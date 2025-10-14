@@ -13,7 +13,7 @@ public class JsonManager implements FileNameReader, DataWriter{
 
 
     @Override
-    public String readFile(String filePath){
+    public String readFileName(String filePath){
         try{
             File file = new File(filePath);
             if (!file.exists()) {
