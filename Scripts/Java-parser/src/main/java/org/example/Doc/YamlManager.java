@@ -2,12 +2,12 @@ package org.example.Doc;
 
 import org.yaml.snakeyaml.Yaml;
 
-
-
 import java.util.Map;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.LinkedHashMap;
+import java.io.FileWriter;
+
 
 public class YamlManager implements DataWriter {
     private final Yaml yaml = new Yaml();
@@ -24,17 +24,17 @@ public class YamlManager implements DataWriter {
 
             String finalDateKey = findUniqueDateKey(date, existingData, lessonData);
             if (finalDateKey == null) {
-                System.out.println("Data for date " + date + " is identical to existing, skipping write")
+                System.out.println("Data for date " + date + " is identical to existing, skipping write");
                 return;
             }
 
             existingData.put(finalDateKey, lessonData);
             writeDataToFile(file, existingData);
-            System.out.println("Data successfully appended to: " + filename)
+            System.out.println("Data successfully appended to: " + filename);
 
 
         } catch (Exception e) {
-            System.err.println("Data for date " + date + " is identical to existing, skipping write");
+            throw new RuntimeException("Failed to write YAML file: " + filename, e);
 
         }
 
@@ -68,6 +68,7 @@ public class YamlManager implements DataWriter {
     }
 
     private String findUniqueDateKey(String date, Map<String, Object> existingData, Map<String, Map<String, String>> lessonData){
+
         String finalDateKey = date;
         int counter = 1;
 
@@ -85,6 +86,7 @@ public class YamlManager implements DataWriter {
     private boolean isDataIdentical(Map<String, Map<String, String>> newData, Map<String, Map<String, String>> existingData){
 
         if (newData.size() != existingData.size()) return false;
+
         for (String period : newData.keySet()) {
             if (!existingData.containsKey(period)) return false;
 
@@ -107,7 +109,11 @@ public class YamlManager implements DataWriter {
     }
 
     private void writeDataToFile(File file, Map<String, Object> data){
-
+        try (FileWriter writer = new FileWriter(file)) {
+            yaml.dump(data, writer);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to write data to YAML file ", e);
+        }
     }
 
 

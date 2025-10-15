@@ -55,7 +55,7 @@ public class JsonManager implements FileNameReader, DataWriter{
 
                 ObjectNode lessonNode = mapper.createObjectNode();
                 lessonNode.put("number", Integer.parseInt(period));
-                lessonNode.put("on_shedule", periodData.get("on_shedule"));
+                lessonNode.put("on_sсhedule", periodData.get("on_sсhedule"));
                 lessonNode.put("changes", periodData.get("changes"));
                 lessonNode.put("auditorium", periodData.get("auditorium"));
                 lessonsNode.add(lessonNode);
@@ -66,7 +66,7 @@ public class JsonManager implements FileNameReader, DataWriter{
             rootNode.set("schedule", scheduleNode);
 
             mapper.writerWithDefaultPrettyPrinter().writeValue(file, rootNode);
-            System.out.println("Data successfully written to :" + filename);
+            System.out.println("Data successfully written to: " + filename);
 
         } catch (Exception e) {
             throw new RuntimeException("Failed to write JSON file: " + filename, e);
