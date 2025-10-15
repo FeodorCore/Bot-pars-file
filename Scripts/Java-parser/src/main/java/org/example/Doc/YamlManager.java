@@ -22,6 +22,16 @@ public class YamlManager implements DataWriter {
             Map<String, Object> existingData = readExistingData(file);
             Map<String, Map<String, String>> lessonData = prepareLessonData(scheduleData);
 
+            String finalDateKey = findUniqueDateKey(date, existingData, lessonData);
+            if (finalDateKey == null) {
+                System.out.println("Data for date " + date + " is identical to existing, skipping write")
+                return;
+            }
+
+            existingData.put(finalDateKey, lessonData);
+            writeDataToFile(file, existingData);
+            System.out.println("Data successfully appended to: " + filename)
+
 
         } catch (Exception e) {
             System.err.println("Data for date " + date + " is identical to existing, skipping write");
@@ -63,7 +73,42 @@ public class YamlManager implements DataWriter {
 
         while (existingData.containsKey(finalDateKey)) {
             Map<String, Map<String, String>> existingLessonData = (Map<String, Map<String, String>>) existingData.get(finalDateKey);
+            if (isDataIdentical(lessonData, existingLessonData)) {
+                return null;
+            }
+            counter++;
+            finalDateKey = date + "(" + counter + ")";
         }
+        return finalDateKey;
     }
+
+    private boolean isDataIdentical(Map<String, Map<String, String>> newData, Map<String, Map<String, String>> existingData){
+
+        if (newData.size() != existingData.size()) return false;
+        for (String period : newData.keySet()) {
+            if (!existingData.containsKey(period)) return false;
+
+        Map<String, String> newLesson = newData.get(period);
+        Map<String, String> existingLesson = existingData.get(period);
+
+            if (!equalsWithNullCheck(newLesson.get("on_schedule"), existingLesson.get("on_schedule")) ||
+                    !equalsWithNullCheck(newLesson.get("changes"), existingLesson.get("changes")) ||
+                    !equalsWithNullCheck(newLesson.get("auditorium"), existingLesson.get("auditorium"))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean equalsWithNullCheck(String str1, String str2) {
+        if (str1 == null && str2 == null ) return true;
+        if (str1 == null || str2 == null ) return false;
+        return str1.equals(str2);
+    }
+
+    private void writeDataToFile(File file, Map<String, Object> data){
+
+    }
+
 
 }
