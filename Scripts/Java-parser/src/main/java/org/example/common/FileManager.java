@@ -32,7 +32,6 @@ public class FileManager {
         return BASE_PATH + subdirectory + "/" + fileName;
     }
 
-    // Дополнительный метод для проверки доступности файла
     public boolean isFileAccessible(String filePath) {
         File file = new File(filePath);
         return file.exists() && file.canRead();
