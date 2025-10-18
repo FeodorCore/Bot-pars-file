@@ -1,4 +1,4 @@
-package org.example.Doc;
+package org.example.common;
 
 import org.yaml.snakeyaml.Yaml;
 

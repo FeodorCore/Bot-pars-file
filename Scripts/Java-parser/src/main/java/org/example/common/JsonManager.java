@@ -1,4 +1,4 @@
-package org.example.Doc;
+package org.example.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

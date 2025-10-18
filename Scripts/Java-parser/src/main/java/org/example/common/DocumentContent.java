@@ -1,4 +1,4 @@
-package org.example.Doc;
+package org.example.common;
 
 import java.util.Collections;
 import java.util.Map;

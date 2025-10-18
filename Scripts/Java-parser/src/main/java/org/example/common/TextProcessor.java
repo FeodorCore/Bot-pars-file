@@ -1,4 +1,4 @@
-package org.example.Doc;
+package org.example.common;
 
 public class TextProcessor {
 
@@ -31,7 +31,6 @@ public class TextProcessor {
         System.out.println("=== END DEBUG ===");
     }
 
-    // Дополнительный метод для нормализации текста
     public String normalizeText(String text) {
         if (text == null) return "";
         return text.replaceAll("[\\r\\n\\t]", " ").replaceAll("\\s+", " ").trim();

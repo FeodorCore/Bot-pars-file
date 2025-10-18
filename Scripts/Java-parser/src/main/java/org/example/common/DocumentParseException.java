@@ -1,4 +1,4 @@
-package org.example.Doc;
+package org.example.common;
 
 public class DocumentParseException extends RuntimeException {
     public DocumentParseException(String message) {

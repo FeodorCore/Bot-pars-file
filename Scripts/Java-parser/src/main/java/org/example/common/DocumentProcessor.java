@@ -1,21 +1,24 @@
-package org.example.Doc;
+package org.example.common;
 
-import java.util.List;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DocumentProcessor {
     private final FileNameReader fileNameReader;
-    private final Parser documentParser;
+    private final Parser primaryParser;
+    private final Parser fallbackParser;
     private final List<DataWriter> dataWriters;
     private final FileManager fileManager;
 
     public DocumentProcessor(FileNameReader fileNameReader,
-                             Parser documentParser,
+                             Parser primaryParser,
+                             Parser fallbackParser,
                              List<DataWriter> dataWriters,
                              FileManager fileManager) {
         this.fileNameReader = fileNameReader;
-        this.documentParser = documentParser;
+        this.primaryParser = primaryParser;
+        this.fallbackParser = fallbackParser;
         this.dataWriters = dataWriters;
         this.fileManager = fileManager;
     }
@@ -59,7 +62,28 @@ public class DocumentProcessor {
 
     private void processDocumentFile(String filePath) {
         System.out.println("Reading file: " + filePath);
-        DocumentContent content = documentParser.parse(filePath);
+
+        DocumentContent content = null;
+        String parserType = "DOCX";
+
+        try {
+            // Try primary parser first (DOCX)
+            content = primaryParser.parse(filePath);
+        } catch (Exception e) {
+            System.out.println("DOCX parsing failed, trying DOC: " + e.getMessage());
+            parserType = "DOC";
+            try {
+                // Try fallback parser (DOC)
+                content = fallbackParser.parse(filePath);
+            } catch (Exception ex) {
+                System.err.println("Both DOCX and DOC parsing failed:");
+                System.err.println("DOCX error: " + e.getMessage());
+                System.err.println("DOC error: " + ex.getMessage());
+                return;
+            }
+        }
+
+        System.out.println("Successfully parsed with " + parserType + " parser");
 
         if (content != null && content.hasDate() && !content.isEmpty()) {
             writeData(content);

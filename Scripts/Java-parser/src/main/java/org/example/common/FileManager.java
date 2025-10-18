@@ -1,4 +1,4 @@
-package org.example.Doc;
+package org.example.common;
 
 import java.io.File;
 import java.io.IOException;
