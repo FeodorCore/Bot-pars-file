@@ -27,7 +27,6 @@ public class DocumentProcessor {
         try {
             String nameFile = fileNameReader.readFileName(
                     fileManager.buildFilePath("json-file", "name_doc.json"));
-
             if (!isValidFileName(nameFile)) {
                 return;
             }
@@ -67,13 +66,11 @@ public class DocumentProcessor {
         String parserType = "DOCX";
 
         try {
-            // Try primary parser first (DOCX)
             content = primaryParser.parse(filePath);
         } catch (Exception e) {
             System.out.println("DOCX parsing failed, trying DOC: " + e.getMessage());
             parserType = "DOC";
             try {
-                // Try fallback parser (DOC)
                 content = fallbackParser.parse(filePath);
             } catch (Exception ex) {
                 System.err.println("Both DOCX and DOC parsing failed:");
@@ -87,6 +84,7 @@ public class DocumentProcessor {
 
         if (content != null && content.hasDate() && !content.isEmpty()) {
             writeData(content);
+            System.exit(2);
         } else {
             System.out.println("Date not found in document or document is empty");
         }
