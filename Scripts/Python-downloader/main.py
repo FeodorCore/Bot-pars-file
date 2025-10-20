@@ -3,28 +3,23 @@ from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 from pathlib import Path
 import os
-
+import sys
 
 class FileDownloader:
-    def __init__(self, base_url, headers=None, download_dir=None):
+    def __init__(self, base_url, headers, download_dir):
         self.base_url = base_url
-        self.headers = headers or {
-            "User-Agent": (
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                "AppleWebKit/537.36 (KHTML, like Gecko) "
-                "Chrome/118.0.0.0 Safari/537.36"
-            )
-        }
-        script_dir = Path(__file__).resolve().parent
-        scripts_dir = script_dir
-
-        if script_dir.name.lower() == "python-downloader":
-            scripts_dir = script_dir.parent
-
-        default_target = scripts_dir / "Input-Output" / "Download-doc"
-
-        self.download_dir = Path(download_dir) if download_dir else default_target
+        self.headers = headers
+        self.download_dir = download_dir
         self.download_dir.mkdir(parents=True, exist_ok=True)
+
+    def download_first_file(self):
+        html = self.fetch_page()
+        links = self.extract_links(html)
+        if not links:
+            print("Файлы не найдены.")
+            return None
+        self.download_file(links[0])
+        sys.exit(2)
 
     def fetch_page(self):
         response = requests.get(self.base_url, headers=self.headers)
@@ -54,14 +49,15 @@ class FileDownloader:
         print(f"Файл сохранён как {filepath}")
         return filepath
 
-    def download_first_file(self):
-        html = self.fetch_page()
-        links = self.extract_links(html)
-        if not links:
-            print("Файлы не найдены.")
-            return None
-        return self.download_file(links[0])
-
 if __name__ == "__main__":
-    downloader = FileDownloader("https://gtec-bks.by/")
+    base_url = "https://gtec-bks.by/"
+    headers = {"User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/118.0.0.0 Safari/537.36")}
+
+    script_dir = Path(__file__).resolve().parent
+    scripts_dir = script_dir.parent
+    download_dir = scripts_dir / "Input-Output" / "Download-doc"
+
+    downloader = FileDownloader(base_url = base_url, headers=headers, download_dir=download_dir)
     downloader.download_first_file()
