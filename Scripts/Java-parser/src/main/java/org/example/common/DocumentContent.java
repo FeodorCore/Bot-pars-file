@@ -9,8 +9,7 @@ public class DocumentContent {
 
     public DocumentContent(String date, Map<String, LessonData> scheduleData) {
         this.date = date;
-        this.scheduleData = scheduleData != null ?
-                Collections.unmodifiableMap(scheduleData) : Collections.emptyMap();
+        this.scheduleData = scheduleData != null ? Collections.unmodifiableMap(scheduleData) : Collections.emptyMap();
     }
 
     public String getDate() {

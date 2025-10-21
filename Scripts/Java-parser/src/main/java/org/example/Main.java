@@ -21,9 +21,7 @@ public class Main {
 
             List<DataWriter> dataWriters = Arrays.asList(jsonManager, yamlManager);
 
-            DocumentProcessor processor = createDocumentProcessor(
-                    jsonManager, docxParser, docParser, dataWriters, fileManager);
-
+            DocumentProcessor processor = new DocumentProcessor(jsonManager, docxParser, docParser, dataWriters, fileManager);
             processor.processDocument();
 
         } catch (Exception e) {
@@ -31,15 +29,5 @@ public class Main {
             e.printStackTrace();
             System.exit(1);
         }
-    }
-
-    private static DocumentProcessor createDocumentProcessor(
-            FileNameReader fileNameReader,
-            Parser primaryParser,
-            Parser fallbackParser,
-            List<DataWriter> dataWriters,
-            FileManager fileManager) {
-
-        return new DocumentProcessor(fileNameReader, primaryParser, fallbackParser, dataWriters, fileManager);
     }
 }

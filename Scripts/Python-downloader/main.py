@@ -6,6 +6,7 @@ import os
 import sys
 import json
 
+
 class FileDownloader:
     def __init__(self, base_url, headers, download_dir, json_dir):
         self.base_url = base_url
@@ -14,19 +15,22 @@ class FileDownloader:
         self.download_dir.mkdir(parents=True, exist_ok=True)
         self.json_dir = json_dir
         self.json_dir.mkdir(parents=True, exist_ok=True)
+        self.filename = None
 
-    def download_first_file(self):
-        html = self.fetch_page()
-        links = self.extract_links(html)
-        if not links:
-            print("files are missing.")
-            return False
-        self.download_file(links[0])
-        json_path = self.json_dir / "name_doc.json"
-        data = {"name_file":self.filename}
-        with open(json_path, "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False)
-            return True
+    def run(self) -> int:
+        try:
+            html = self.fetch_page()
+            links = self.extract_links(html)
+            if not links:
+                print("Files are missing.")
+                return 1
+
+            self.download_file(links[0])
+            self.save_metadata()
+            return 2
+        except Exception as e:
+            print(f"Ошибка: {e}")
+            return 1
 
     def fetch_page(self):
         response = requests.get(self.base_url, headers=self.headers)
@@ -55,19 +59,34 @@ class FileDownloader:
         print(f"The file is saved as: {filepath}")
         return filepath
 
+    def save_metadata(self):
+        if not self.filename:
+            return
+        json_path = self.json_dir / "name_doc.json"
+        data = {"name_file": self.filename}
+        with open(json_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False)
+
+
 if __name__ == "__main__":
     base_url = "https://gtec-bks.by/"
-    headers = {"User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                "AppleWebKit/537.36 (KHTML, like Gecko) "
-                "Chrome/118.0.0.0 Safari/537.36")}
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/118.0.0.0 Safari/537.36"
+        )
+    }
 
     script_dir = Path(__file__).resolve().parent
     scripts_dir = script_dir.parent
     download_dir = scripts_dir / "Input-Output" / "Download-doc"
     json_dir = scripts_dir / "Input-Output" / "json-file"
 
-    downloader = FileDownloader(base_url = base_url, headers=headers, download_dir=download_dir, json_dir=json_dir)
-    success = downloader.download_first_file()
-    if success:
-        sys.exit(2)       
-    
+    downloader = FileDownloader(
+        base_url=base_url,
+        headers=headers,
+        download_dir=download_dir,
+        json_dir=json_dir
+    )
+    sys.exit(downloader.run())

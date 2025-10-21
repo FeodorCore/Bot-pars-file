@@ -11,11 +11,7 @@ public class DocumentProcessor {
     private final List<DataWriter> dataWriters;
     private final FileManager fileManager;
 
-    public DocumentProcessor(FileNameReader fileNameReader,
-                             Parser primaryParser,
-                             Parser fallbackParser,
-                             List<DataWriter> dataWriters,
-                             FileManager fileManager) {
+    public DocumentProcessor(FileNameReader fileNameReader, Parser primaryParser, Parser fallbackParser, List<DataWriter> dataWriters, FileManager fileManager) {
         this.fileNameReader = fileNameReader;
         this.primaryParser = primaryParser;
         this.fallbackParser = fallbackParser;
@@ -25,8 +21,7 @@ public class DocumentProcessor {
 
     public void processDocument() {
         try {
-            String nameFile = fileNameReader.readFileName(
-                    fileManager.buildFilePath("json-file", "name_doc.json"));
+            String nameFile = fileNameReader.readFileName(fileManager.buildFilePath("json-file", "name_doc.json"));
             if (!isValidFileName(nameFile)) {
                 return;
             }
