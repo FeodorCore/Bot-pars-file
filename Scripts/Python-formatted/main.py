@@ -24,7 +24,7 @@ class Python_formatted:
         self.weekly_data: Dict[str, Any] = {}
         self.result: Dict[str, Any] = {}
 
-    def run(self) -> int:
+    def run(self):
         try:
             self.load_data()
             self.merge_schedule()
@@ -35,7 +35,7 @@ class Python_formatted:
             print(f"Error: {e}")
             return 1
 
-    def load_data(self) -> None:
+    def load_data(self):
         with open(self.json_dir / 'broadcast_pars.json', 'r', encoding='utf-8') as f:
             self.broadcast_data = json.load(f)
 
@@ -47,7 +47,7 @@ class Python_formatted:
         day_key = day_match.group(1) if day_match else None
         return self.DAYS_MAPPING.get(day_key, day_key)
 
-    def merge_schedule(self) -> None:
+    def merge_schedule(self) :
         raw_date = self.broadcast_data['schedule']['date']
         normalized_day = self.normalize_day(raw_date)
 
