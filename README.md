@@ -58,21 +58,8 @@ node dist/bot.js
 |—— Scripts
 |    |—— Input-Output
 |        |—— Download-doc
-|            |—— info_20251002_095642_b2a67b3a.doc
-|            |—— info_20251007_161311_99a08e9b.doc
-|            |—— info_20251017_152704_eb4cf49c.doc
-|            |—— info_20251021_152531_64c1f1a4.doc
-|            |—— info_20251022_165226_a6e33d6e.doc
-|            |—— download_file3.docx
-|            |—— download_file2.doc
-|            |—— download_file1.docx
 |        |—— json-file
-|            |—— broadcast_pars.json
-|            |—— formatted.json
-|            |—— name_doc.json
-|            |—— weekly_schedule.json
 |        |—— yaml-file
-|            |—— history.yaml
 |    |—— Java-parser
 |        |—— .gitignore
 |        |—— dependency-reduced-pom.xml
