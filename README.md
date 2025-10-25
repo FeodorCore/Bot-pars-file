@@ -52,20 +52,7 @@ node dist/bot.js
 
 ## 📁 Структура проекта
 ```
-|—— .gitignore
-|—— .venv
-|—— .idea
-|    |—— .gitignore
 |    |—— Bot-pars-file.iml
-|    |—— compiler.xml
-|    |—— encodings.xml
-|    |—— inspectionProfiles
-|        |—— Project_Default.xml
-|    |—— jarRepositories.xml
-|    |—— misc.xml
-|    |—— modules.xml
-|    |—— vcs.xml
-|    |—— workspace.xml
 |—— requirements.txt
 |—— running_scripts.py
 |—— Scripts
@@ -135,19 +122,6 @@ node dist/bot.js
 |                        |—— Docx
 |                            |—— DocxDocumentParser.class
 |                        |—— Main.class
-|            |—— generated-sources
-|                |—— annotations
-|            |—— Java-parser-1.0-SNAPSHOT.jar
-|            |—— maven-archiver
-|                |—— pom.properties
-|            |—— maven-status
-|                |—— maven-compiler-plugin
-|                    |—— compile
-|                        |—— default-compile
-|                            |—— createdFiles.lst
-|                            |—— inputFiles.lst
-|            |—— original-Java-parser-1.0-SNAPSHOT.jar
-|            |—— test-classes
 |    |—— Python-downloader
 |        |—— main.py
 |    |—— Python-formatted
