@@ -45,10 +45,10 @@ node dist/bot.js
 - `/get`: Получить рассписание.
 
 ## 📲 Диалог с ботом
-<img src="assets/screenshot.png" alt="Bot Screenshot" width="300"/>
+<img src="assets/screenshot.png" alt="Скриншот диалога с ботом" width="300"/>
 
 ## 🔄 Принцип работы
-<img src="assets/image.png" alt="Bot Screenshot" width="500"/>
+<img src="assets/image.png" alt="Скриншот принципа работы" width="500"/>
 
 ## 📁 Структура проекта
 ```
